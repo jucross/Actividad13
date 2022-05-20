@@ -1,0 +1,28 @@
+package com.example.demo.service;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class PokemonService {
+
+	private String pokeapi = "https://pokeapi.co/api/v2/pokemon/";
+	String abilities;
+	String base_experiences;
+	String held_item;
+	String id;
+	String name;
+	String location_area_encounters;
+
+	public String APIabilities (String pokemon){
+			
+				RestTemplate restTemplate = new RestTemplate();
+				abilities =restTemplate.getForObject(pokeapi+pokemon,String.class);
+				JSONObject obtenerObj = new JSONObject(abilities);
+				abilities = obtenerObj.optString("abilities");
+			
+			return abilities;
+		}
+}

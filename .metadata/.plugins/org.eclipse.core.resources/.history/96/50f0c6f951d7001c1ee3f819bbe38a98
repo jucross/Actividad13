@@ -1,0 +1,37 @@
+package com.example.demo.controller;
+
+
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.example.demo.entity.PokemonModel;
+
+@RestController
+public class Pokemon {
+
+	@RequestMapping()
+	public String inicio() {
+		return "Favor de Elegir un pokemon /Nombre Pokemon";
+	}
+	
+	@RequestMapping("/abilities/{pokemon}")
+	public Object abilities (@PathVariable("pokemon") String pokemon) {
+		String uri = "https://pokeapi.co/api/v2/ability/"+pokemon;
+		RestTemplate restTemplate = new RestTemplate();
+		Object PokemonInfo = restTemplate.getForObject(uri, Object.class);
+		return PokemonInfo;
+		
+	}
+	
+	@RequestMapping("/base_experiences/{pokemon}")
+	public int baseExperience (@PathVariable("pokemon") String pokemon) {
+		String uri = "https://pokeapi.co/api/v2/pokemon/"+pokemon;
+		RestTemplate restTemplate = new RestTemplate();
+		PokemonModel PokemonInfo = restTemplate.getForObject(uri, PokemonModel.class);
+		return PokemonInfo.getBase_experience();
+		
+	}
+}
